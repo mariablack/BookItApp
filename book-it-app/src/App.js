@@ -1,6 +1,6 @@
 import React from 'react'
-import Button from '@material-ui/core/Button';
 import { AuthProvider, useAuthState } from "./context/auth-context"
+import LoginPage from "./containers/LoginPage"
 
 function Footer() {
   return <p>This is an awesome app!</p>
@@ -49,19 +49,22 @@ function Home() {
   return user ? <AuthenticatedApp /> : <UnauthenticatedApp />
 }
 
+
 function App ()  {
+
   const [login, setLogin] = React.useState(false)
 
   const clickMe = () => {
-    setLogin(true);
+    setLogin(true)
   }
+
   return (
     <AuthProvider>
       <div>
         <h1>Hello there</h1>
         <p>Welcome to my app...</p>
         <button onClick={clickMe}>Click me</button>
-        {login ? <Home /> : <div>Please login</div> }
+        {login ? <Home /> : <div>Please log in!</div> }
       </div>
     </AuthProvider>
   )

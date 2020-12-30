@@ -4,13 +4,11 @@ import { TextField, InputAdornment, IconButton } from '@material-ui/core';
 // import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
 
-import { useAuth } from "./context/auth-context"
-
 const LoginPage = () => {
 const [username, setUsername] = useState('');
 const [password, setPassword] = useState('');
 const [isDisable, setIsDisable] = useState(true);
-const { user } = useAuth();
+const [login, setLogin] = React.useState(false)
 
 
 // Props for Button Icon in Password
@@ -20,8 +18,8 @@ const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
 
     return(
-        <>
-            <TextField
+    
+         <><TextField
                 required
                 id="username"
                 label="Username"
@@ -60,11 +58,11 @@ const handleMouseDownPassword = () => setShowPassword(!showPassword);
             <Button
                 disabled={isDisable}
                 variant="contained"
-                //onClick={}
+                onClick={setLogin(true)}
             >
-                Login
+                    Login
         </Button>
-        </>
+        </> 
     )
 }
 
