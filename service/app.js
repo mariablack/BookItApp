@@ -1,15 +1,18 @@
 var express = require("express");
-var app = express();
+var cors = require('cors');
+var app = express()
+
+app.use(cors())
 
 //Account username/pass
 const auth = { login: 'maria', password: '1234' } 
 const apartments = [
-    { id: 1, Title: 'Apartment 1', Price: 25, Image: "/WebApis/images/Tiny-Apartments-kitchen.jpg",  People: 2,  Description: 'this is the description', Available: true},
-    { id: 2, Title: 'Apartment 2', Price: 25, Image: "/WebApis/images/Small-apartment-design.jpg", People: 3, Description: 'this is the description', Available: true },
-    { id: 3, Title: 'Apartment 3', Price: 25, Image: "/WebApis/images/Tiny-Apartments-kitchen.jpg", People: 2, Description: 'this is the description', Available: true },
-    { id: 4, Title: 'Apartment 4', Price: 25, Image: "/WebApis/images/Small-apartment-design.jpg", People: 4, Description: 'this is the description', Available: true }, 
-    { id: 5, Title: 'Apartment 5', Price: 25, Image: "/WebApis/images/Tiny-Apartments-kitchen.jpg", People: 5, Description: 'this is the description', Available: true }, 
-    { id: 6, Title: 'Apartment 6', Price: 25, Image: "/WebApis/images/Small-apartment-design.jpg", People: 6, Description: 'this is the description', Available: true }]
+    { id: 1, Title: 'Apartment 1', Price: 25, Image: "/static/media/Small-apartment-design.bdc0e5ce.jpg",  People: 2,  Description: 'this is the description', Available: 'Yes'},
+    { id: 2, Title: 'Apartment 2', Price: 25, Image: "/static/media/cozy-modern-sofa.96b83d88.jpg", People: 3, Description: 'this is the description', Available: 'Yes' },
+    { id: 3, Title: 'Apartment 3', Price: 25, Image: "/static/media/Tiny-Apartments-kitchen.cfbd184e.jpg", People: 2, Description: 'this is the description', Available: 'Yes' },
+    { id: 4, Title: 'Apartment 4', Price: 25, Image: "/static/media/Cozy-Studio.599c760b.jpg", People: 4, Description: 'this is the description', Available: 'Yes' }, 
+    { id: 5, Title: 'Apartment 5', Price: 25, Image: "/static/media/Warm-and-Cozy.3a0c7ee4.jpg", People: 5, Description: 'this is the description', Available: 'Yes' }, 
+    { id: 6, Title: 'Apartment 6', Price: 25, Image: "/static/media/white-grey-sofa.ad35ebc9.jpg", People: 6, Description: 'this is the description', Available: 'Yes' }]
 
 app.get('/login', (req, res) => {
     try {
@@ -39,6 +42,6 @@ app.get('/apartments', (req,res) => {
     }
 })
 
-app.listen(3000, () => {
-    console.log("Server running on port 3000");
+app.listen(3001, () => {
+    console.log("Server running on port 3001");
 });
