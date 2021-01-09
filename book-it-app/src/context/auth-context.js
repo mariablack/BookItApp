@@ -1,28 +1,32 @@
-import React from 'react'
-const sleep = time => new Promise(resolve => setTimeout(resolve, time))
+/* eslint-disable no-nested-ternary */
+import React from 'react';
+import PropTypes from 'prop-types';
+import Spinner from '../components/Spinner';
 
-const getUser = () => sleep(1000)
-  .then(() => ({ username: 'maria' }))
-  //.then(() => null)
+const sleep = (time) => new Promise((resolve) => setTimeout(resolve, time));
 
-const AuthContext = React.createContext()
+const getUser = () => sleep(1000).then(() => ({ username: 'maria' }));
+// .then(() => null)
+
+const AuthContext = React.createContext();
 function AuthProvider({ children }) {
   const [state, setState] = React.useState({
     status: 'pending',
     error: null,
     user: null,
-  })
+  });
   React.useEffect(() => {
-      getUser().then(
-        user => setState({ status: 'success', error: null, user }),
-        error => setState({ status: 'error', error, user: null }),
-      )
-  }, [])
+    getUser().then(
+      (user) => setState({ status: 'success', error: null, user }),
+      (error) => setState({ status: 'error', error, user: null })
+    );
+  }, []);
 
   return (
     <AuthContext.Provider value={state}>
+      {/* eslint-disable-next-line no-nested-ternary */}
       {state.status === 'pending' ? (
-        'Loading...'
+        <Spinner />
       ) : state.status === 'error' ? (
         <div>
           Oh no
@@ -31,28 +35,29 @@ function AuthProvider({ children }) {
           </div>
         </div>
       ) : (
-            children
-          )}
+        children
+      )}
     </AuthContext.Provider>
-  )
+  );
 }
 
 function useAuthState() {
-  const state = React.useContext(AuthContext)
-  const isPending = state.status === 'pending'
-  const isError = state.status === 'error'
-  const isSuccess = state.status === 'success'
-  const isAuthenticated = state.user && isSuccess
+  const state = React.useContext(AuthContext);
+  const isPending = state.status === 'pending';
+  const isError = state.status === 'error';
+  const isSuccess = state.status === 'success';
+  const isAuthenticated = state.user && isSuccess;
   return {
     ...state,
     isPending,
     isError,
     isSuccess,
     isAuthenticated,
-  }
+  };
 }
 
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
-
-
-export { AuthProvider, useAuthState}
+export { AuthProvider, useAuthState };

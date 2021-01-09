@@ -3,7 +3,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { AuthProvider } from './context/auth-context';
 
-
 function AppProviders({ children }) {
   return (
     <Router>
