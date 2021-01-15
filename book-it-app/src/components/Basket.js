@@ -28,12 +28,13 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     padding: '0px 20px',
-    color: '#fc9e15',
+    color: '#0d835f',
     fontSize: '18px',
     fontWeight: 600,
   },
+
   dates: {
-    color: '#fc9e15',
+    color: '#0d835f',
     fontSize: '18px',
     fontWeight: 600,
     display: 'flex',
@@ -44,6 +45,11 @@ const styles = {
   span: {
     width: '260px',
   },
+  total: {
+    color: '#0d835f',
+    fontSize: '18px',
+    fontWeight: 600,
+  },
 };
 
 const Basket = (props) => {
@@ -51,6 +57,7 @@ const Basket = (props) => {
   const history = useHistory();
 
   const basketItems = useStore((state) => state.basketItems);
+  const totalAmount = useStore((state) => state.totalAmount);
   const removeItemFromBasket = useStore((state) => state.removeItemFromBasket);
 
   const toggleClose = (event) => {
@@ -69,7 +76,7 @@ const Basket = (props) => {
     history.push('/checkOut');
   };
 
-  console.log(`BAsketItems ${JSON.stringify(basketItems)}`);
+  console.log(`BasketItems ${JSON.stringify(basketItems)}`);
   const basketProducts = basketItems.map(function (item) {
     return (
       <div key={item.id}>
@@ -109,6 +116,7 @@ const Basket = (props) => {
           <hr />
           {basketProducts}
           <div className="bottom-buttons" style={styles.buttons}>
+            <div style={styles.total}>Total Amount: €{totalAmount} </div>
             <hr />
             <Button
               variant="contained"

@@ -139,7 +139,7 @@ const Home = () => {
       <div style={styles.basket}>
         <IconButton onClick={toggleDrawer}>
           <Badge badgeContent={items} color="secondary" invisible={false}>
-            <ShoppingBasketIcon />
+            <ShoppingBasketIcon fontSize="large" />
           </Badge>
         </IconButton>
       </div>

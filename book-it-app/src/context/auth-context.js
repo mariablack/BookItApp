@@ -5,8 +5,7 @@ import Spinner from '../components/Spinner';
 
 const sleep = (time) => new Promise((resolve) => setTimeout(resolve, time));
 
-const getUser = () =>
-  sleep(1000).then(() => ({ username: 'maria', apartment: null }));
+const getUser = () => sleep(1000).then(() => ({ payment: 'success' }));
 // .then(() => null)
 
 const AuthContext = React.createContext();
