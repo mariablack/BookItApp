@@ -5,7 +5,8 @@ import Spinner from '../components/Spinner';
 
 const sleep = (time) => new Promise((resolve) => setTimeout(resolve, time));
 
-const getUser = () => sleep(1000).then(() => ({ username: 'maria' }));
+const getUser = () =>
+  sleep(1000).then(() => ({ username: 'maria', apartment: null }));
 // .then(() => null)
 
 const AuthContext = React.createContext();
@@ -14,6 +15,7 @@ function AuthProvider({ children }) {
     status: 'pending',
     error: null,
     user: null,
+    apartment: null,
   });
   React.useEffect(() => {
     getUser().then(

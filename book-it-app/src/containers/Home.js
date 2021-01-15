@@ -1,5 +1,13 @@
+/* eslint-disable global-require */
+/* eslint-disable import/no-dynamic-require */
 import React, { useState, useEffect } from 'react';
+import IconButton from '@material-ui/core/IconButton';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+import Badge from '@material-ui/core/Badge';
+import Button from '@material-ui/core/Button';
 import { getApartments } from '../consts.js';
+import Basket from '../components/Basket';
+import useStore from '../store';
 
 const styles = {
   section: {
@@ -47,12 +55,6 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '1.5rem',
-  },
-  secondInfo: {
-    display: 'flex',
-    maxWidth: '200px',
-    justifyContent: 'space-between',
   },
   price: {
     color: '#49a6e9',
@@ -60,14 +62,31 @@ const styles = {
   people: {
     color: '#e66b6b',
   },
+  available: {
+    color: '#e66b6b',
+    display: 'flex',
+    flexDirection: 'column',
+  },
   description: {
     color: '#617d98',
     fontSize: '1rem',
+  },
+  basket: {
+    height: '40px',
+    width: '100px',
+    margin: '10px 0px',
+    position: 'absolute',
+    right: '0',
+    top: '0%',
   },
 };
 
 const Home = () => {
   const [apartments, setApartments] = useState([]);
+  const [showBasket, setShowBasket] = useState(false);
+
+  const items = useStore((state) => state.items);
+  const addToBasket = useStore((state) => state.addToBasket);
 
   useEffect(() => {
     fetch(getApartments)
@@ -77,38 +96,63 @@ const Home = () => {
       });
   }, []);
 
-  const items = apartments.map((i, index) => (
-    <>
-      <div key={index}>
-        <article style={styles.article} className="single-tour">
-          <img style={styles.image} src={i.Image} alt="" />
-          <footer style={styles.footer}>
-            <div>
-              <div style={styles.info}>
-                <h3>{i.Title}</h3>
-                <h3 style={styles.price}>Price: €{i.Price}</h3>
-              </div>
-              <div style={styles.secondInfo}>
-                <h4 style={styles.people}>Capacity: {i.People}</h4>
-                <h4 style={styles.people}>Available: {i.Available}</h4>
-              </div>
-              <p style={styles.description}>{i.Description}</p>
+  const toggleDrawer = () => {
+    const show = !showBasket;
+    setShowBasket(show);
+  };
+
+  const itemsToShow = apartments.map((i, index) => (
+    <div key={index}>
+      <article style={styles.article} className="single-tour">
+        <img style={styles.image} src={i.Image} alt="" />
+        <footer style={styles.footer}>
+          <div>
+            <div style={styles.info}>
+              <h3>{i.Title}</h3>
+              <h3 style={styles.price}>Price: €{i.Price}</h3>
             </div>
-          </footer>
-        </article>
-      </div>
-    </>
+            <div style={styles.info}>
+              <h4 style={styles.people}>People: {i.People}</h4>
+              <h4 style={styles.available}>
+                <p>
+                  Available From: {i.From} To: {i.To}
+                </p>
+              </h4>
+            </div>
+            <p style={styles.description}>{i.Description}</p>
+          </div>
+          <Button
+            variant="contained"
+            color="secondary"
+            key={i.id}
+            onClick={() => addToBasket(i)}
+          >
+            Book
+          </Button>
+        </footer>
+      </article>
+    </div>
   ));
 
   return (
-    <section style={styles.section}>
-      {' '}
-      <div style={styles.title} className="title">
-        <h2>Welcome to BookIt!</h2>
-        <div style={styles.underline} className="underline" />
+    <>
+      <div style={styles.basket}>
+        <IconButton onClick={toggleDrawer}>
+          <Badge badgeContent={items} color="secondary" invisible={false}>
+            <ShoppingBasketIcon />
+          </Badge>
+        </IconButton>
       </div>
-      {items}
-    </section>
+      <section style={styles.section}>
+        {' '}
+        <div style={styles.title} className="title">
+          <h2>Welcome to BookIt!</h2>
+          <div style={styles.underline} className="underline" />
+        </div>
+        {itemsToShow}
+      </section>
+      <Basket showBasket={showBasket} setShowBasket={setShowBasket} />
+    </>
   );
 };
 
