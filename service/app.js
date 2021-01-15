@@ -3,18 +3,22 @@ var cors = require('cors');
 var app = express()
 app.use(express.static('service'))
 app.use(express.static('images'))
+const bodyParser = require('body-parser');
 
 app.use(cors())
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.raw());
 
 //Account username/pass
 const auth = { login: 'maria', password: '1234' } 
 const apartments = [
     { id: 1, Title: 'Apartment 1', Price: 25, Image: "http://localhost:3001/Small-apartment-design.jpg", People: 2, Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', From: '10-1-2021', To: '29-1-2021'},
-    { id: 2, Title: 'Apartment 2', Price: 25, Image: "http://localhost:3001/cozy-modern-sofa.jpg", People: 3, Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', From: '6-2-2021', To: '15-2-2021' },
-    { id: 3, Title: 'Apartment 3', Price: 25, Image: "http://localhost:3001/Tiny-Apartments-kitchen.jpg", People: 2, Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', From: '3-3-2021', To: '14-3-2021' },
-    { id: 4, Title: 'Apartment 4', Price: 25, Image: "http://localhost:3001/Cozy-Studio.jpg", People: 4, Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', From: '12-4-2021', To: '1-5-2021' }, 
-    { id: 5, Title: 'Apartment 5', Price: 25, Image: "http://localhost:3001/Warm-and-Cozy.jpg", People: 5, Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', From: '13-6-2021', To: '20-7-2021' }, 
-    { id: 6, Title: 'Apartment 6', Price: 25, Image: "http://localhost:3001/white-grey-sofa.jpg", People: 6, Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', From: '22-7-2021', To: '20-9-2021'}]
+    { id: 2, Title: 'Apartment 2', Price: 35, Image: "http://localhost:3001/cozy-modern-sofa.jpg", People: 3, Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', From: '6-2-2021', To: '15-2-2021' },
+    { id: 3, Title: 'Apartment 3', Price: 40, Image: "http://localhost:3001/Tiny-Apartments-kitchen.jpg", People: 2, Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', From: '3-3-2021', To: '14-3-2021' },
+    { id: 4, Title: 'Apartment 4', Price: 55, Image: "http://localhost:3001/Cozy-Studio.jpg", People: 4, Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', From: '12-4-2021', To: '1-5-2021' }, 
+    { id: 5, Title: 'Apartment 5', Price: 75, Image: "http://localhost:3001/Warm-and-Cozy.jpg", People: 5, Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', From: '13-6-2021', To: '20-7-2021' }, 
+    { id: 6, Title: 'Apartment 6', Price: 55, Image: "http://localhost:3001/white-grey-sofa.jpg", People: 6, Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', From: '22-7-2021', To: '20-9-2021'}]
 
 
 app.get('/login', (req, res) => {
@@ -44,6 +48,22 @@ app.get('/apartments', (req,res) => {
         res.status(500).send(err)
     }
 })
+
+app.post('/order', (req, res) => {
+    if (Object.keys(req.body).length === 0) {
+        console.log('Body is empty!');
+        res.status(401).send('Body is empty');
+    }
+    console.log('Got body:', req.body);
+    for (var key in req.body) {
+        if (req.body[key] === "") {
+            console.log(key + " is blank.");
+            return res.status(401).send(key + " is blank.");
+        }
+    }
+    res.json({ status: 'success' })
+});
+
 
 app.listen(3001, () => {
     console.log("Server running on port 3001");

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DoneIcon from '@material-ui/icons/Done';
 import RotateLeftRoundedIcon from '@material-ui/icons/RotateLeftRounded';
 import { makeStyles } from '@material-ui/core/styles';
-import Spinner from '../components/Spinner';
+import PropTypes from 'prop-types';
 
 const styles = {
   wrapper: {
@@ -23,7 +23,11 @@ const styles = {
     color: '#49a6e9',
     fontSize: '20px',
     fontWeight: 600,
-    margin: '20px auto',
+    margin: '50px 0px 20px 0px',
+  },
+  message: {
+    fontSize: '20px',
+    fontWeight: '700',
   },
 };
 
@@ -34,42 +38,44 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Payment = () => {
+const PlaceOrderPage = (props) => {
+  const { orderResponse } = props;
   const [isCompleted, setIsCompleted] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [loading, setLoading] = useState(true);
   const classes = useStyles();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (orderResponse) {
+      if (orderResponse.status === 'success') {
+        setIsCompleted(true);
+      } else {
+        setHasError(true);
+      }
+      setLoading(false);
+    }
+  }, []);
 
   return (
     <div style={styles.wrapper}>
-      <div className="thank">
-        <p className="thank-message">Your reservation is almost ready!</p>
-      </div>
       {loading ? (
-        <div>
-          <RotateLeftRoundedIcon className={classes.icon} />
-          <div className="wait">
-            <p className="thank-message">
+        <>
+          <div style={styles.message}>Your reservation is almost ready!</div>
+          <div>
+            <RotateLeftRoundedIcon className={classes.icon} />
+            <div style={styles.message}>
               Waiting for the order to be accepted..
-            </p>
+            </div>
           </div>
-        </div>
+        </>
       ) : null}
       {isCompleted ? (
         <div>
           <DoneIcon className={classes.icon} />
-          <div className="wait">
-            <p className="thank-message">
-              Thank you for your reservation! Have a nice accommodation!
-            </p>
+          <div style={styles.message}>
+            Thank you for your reservation! Soon you'll receive a mail with your
+            order details !
           </div>
-        </div>
-      ) : null}
-      {loading ? (
-        <div className="spinner-wr">
-          <Spinner />
         </div>
       ) : null}
       {hasError && (
@@ -85,4 +91,7 @@ const Payment = () => {
   );
 };
 
-export default Payment;
+PlaceOrderPage.propTypes = {
+  orderResponse: PropTypes.object,
+};
+export default PlaceOrderPage;

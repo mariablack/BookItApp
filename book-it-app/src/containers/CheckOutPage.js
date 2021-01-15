@@ -6,6 +6,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import OrderTable from '../components/OrderTable';
+import { postOrder } from '../consts';
+import PlaceOrderPage from './PlaceOrderPage';
+import useStore from '../store';
 
 const schema = yup.object().shape({
   Phone: yup
@@ -45,7 +48,7 @@ const styles = {
   title: {
     fontSize: '25px',
     fontWeight: '600',
-    color: '#49a6e9',
+    color: '#102a42',
     margin: '30px',
   },
   rightTitle: {
@@ -65,6 +68,9 @@ const styles = {
   },
   button: {
     marginRight: '20px',
+  },
+  buttons: {
+    marginTop: '30px',
   },
   textField: {
     width: '300px',
@@ -90,14 +96,41 @@ const CheckOut = () => {
   const [postalCode, setPostalCode] = useState('');
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
+  const [orderResponse, setOrderResponse] = useState(null);
   const history = useHistory();
+  const basketItems = useStore((state) => state.basketItems);
 
   const goBack = () => {
     history.push('/');
   };
 
   const goToOrder = () => {
-    history.push('/order');
+    const headers = new Headers();
+    headers.set('Accept', 'application/json');
+    headers.set('Content-Type', 'application/json');
+
+    const body = {
+      Name: `${firstName} ${lastName} `,
+      Address1: address,
+      Zip: postalCode,
+      City: city,
+      MobilePhone: phone,
+      Email: email,
+      Apartments: basketItems,
+    };
+
+    fetch(postOrder, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        Order: body,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(JSON.stringify(data));
+        setOrderResponse(data);
+      });
   };
 
   const { register, handleSubmit, errors } = useForm({
@@ -110,145 +143,152 @@ const CheckOut = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.title}>Check Out!</div>
-      <div style={styles.order}>
-        <OrderTable />
-        <div style={styles.table}>
-          <div style={styles.rightTitle}>
-            Please fill out your personal info
+    <>
+      <div style={styles.container}>
+        <div style={styles.title}>Check Out!</div>
+        <div style={styles.order}>
+          <OrderTable />
+          <div style={styles.table}>
+            <div style={styles.rightTitle}>
+              Please fill out your personal info
+            </div>
+            <form style={styles.form}>
+              <div style={styles.boxes}>
+                <div>
+                  <TextField
+                    id="outlined-basic"
+                    label="First Name"
+                    variant="outlined"
+                    inputRef={register}
+                    name="FirstName"
+                    onChange={(event) => setFirstName(event.target.value)}
+                    style={styles.textField}
+                  />
+                  {errors.FirstName && (
+                    <h4 style={styles.errorMessage}>
+                      {errors.FirstName.message}
+                    </h4>
+                  )}
+                </div>
+                <div>
+                  <TextField
+                    id="outlined-basic"
+                    label="Last Name"
+                    variant="outlined"
+                    name="LastName"
+                    inputRef={register}
+                    onChange={(event) => setLastName(event.target.value)}
+                    style={styles.textField}
+                  />
+                  {errors.LastName && (
+                    <h4 style={styles.errorMessage}>
+                      {errors.LastName.message}
+                    </h4>
+                  )}
+                </div>
+              </div>
+              <div>
+                <TextField
+                  id="outlined-basic"
+                  label="Email"
+                  variant="outlined"
+                  name="Email"
+                  inputRef={register}
+                  onChange={(event) => setEmail(event.target.value)}
+                  style={styles.mail}
+                />
+                {errors.Email && (
+                  <h4 style={styles.errorMessage}>{errors.Email.message}</h4>
+                )}
+              </div>
+              <div style={styles.boxes}>
+                <div>
+                  <TextField
+                    id="outlined-basic"
+                    label="City"
+                    variant="outlined"
+                    name="City"
+                    inputRef={register}
+                    onChange={(event) => setCity(event.target.value)}
+                    style={styles.textField}
+                  />
+                  {errors.City && (
+                    <h4 style={styles.errorMessage}>{errors.City.message}</h4>
+                  )}
+                </div>
+                <div>
+                  <TextField
+                    id="outlined-basic"
+                    label="Postal Code"
+                    variant="outlined"
+                    name="PostalCode"
+                    inputRef={register}
+                    onChange={(event) => setPostalCode(event.target.value)}
+                    style={styles.textField}
+                  />
+                  {errors.PostalCode && (
+                    <h4 style={styles.errorMessage}>
+                      {errors.PostalCode.message}
+                    </h4>
+                  )}
+                </div>
+              </div>
+              <div style={styles.boxes}>
+                <div>
+                  <TextField
+                    id="outlined-basic"
+                    label="Address"
+                    variant="outlined"
+                    name="Address"
+                    inputRef={register}
+                    onChange={(event) => setAddress(event.target.value)}
+                    style={styles.textField}
+                  />
+                  {errors.Address && (
+                    <h4 style={styles.errorMessage}>
+                      {errors.Address.message}
+                    </h4>
+                  )}
+                </div>
+                <div>
+                  <TextField
+                    id="outlined-basic"
+                    label="Phone"
+                    variant="outlined"
+                    name="Phone"
+                    inputRef={register}
+                    onChange={(event) => setPhone(event.target.value)}
+                    style={styles.textField}
+                  />
+                  {errors.Phone && (
+                    <h4 style={styles.errorMessage}>{errors.Phone.message}</h4>
+                  )}
+                </div>
+              </div>
+              <div style={styles.buttons}>
+                <Button
+                  style={styles.button}
+                  variant="contained"
+                  color="secondary"
+                  onClick={goBack}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleSubmit(onSubmit)}
+                >
+                  Book Now!
+                </Button>
+              </div>
+            </form>
           </div>
-          <form style={styles.form}>
-            <div style={styles.boxes}>
-              <div>
-                <TextField
-                  id="outlined-basic"
-                  label="First Name"
-                  variant="outlined"
-                  inputRef={register}
-                  name="FirstName"
-                  onChange={(event) => setFirstName(event.target.value)}
-                  style={styles.textField}
-                />
-                {errors.FirstName && (
-                  <h4 style={styles.errorMessage}>
-                    {errors.FirstName.message}
-                  </h4>
-                )}
-              </div>
-              <div>
-                <TextField
-                  id="outlined-basic"
-                  label="Last Name"
-                  variant="outlined"
-                  name="LastName"
-                  inputRef={register}
-                  onChange={(event) => setLastName(event.target.value)}
-                  style={styles.textField}
-                />
-                {errors.LastName && (
-                  <h4 style={styles.errorMessage}>{errors.LastName.message}</h4>
-                )}
-              </div>
-            </div>
-            <div>
-              <TextField
-                id="outlined-basic"
-                label="Email"
-                variant="outlined"
-                name="Email"
-                inputRef={register}
-                onChange={(event) => setEmail(event.target.value)}
-                style={styles.mail}
-              />
-              {errors.Email && (
-                <h4 style={styles.errorMessage}>{errors.Email.message}</h4>
-              )}
-            </div>
-            <div style={styles.boxes}>
-              <div>
-                <TextField
-                  id="outlined-basic"
-                  label="City"
-                  variant="outlined"
-                  name="City"
-                  inputRef={register}
-                  onChange={(event) => setCity(event.target.value)}
-                  style={styles.textField}
-                />
-                {errors.City && (
-                  <h4 style={styles.errorMessage}>{errors.City.message}</h4>
-                )}
-              </div>
-              <div>
-                <TextField
-                  id="outlined-basic"
-                  label="Postal Code"
-                  variant="outlined"
-                  name="PostalCode"
-                  inputRef={register}
-                  onChange={(event) => setPostalCode(event.target.value)}
-                  style={styles.textField}
-                />
-                {errors.PostalCode && (
-                  <h4 style={styles.errorMessage}>
-                    {errors.PostalCode.message}
-                  </h4>
-                )}
-              </div>
-            </div>
-            <div style={styles.boxes}>
-              <div>
-                <TextField
-                  id="outlined-basic"
-                  label="Address"
-                  variant="outlined"
-                  name="Address"
-                  inputRef={register}
-                  onChange={(event) => setAddress(event.target.value)}
-                  style={styles.textField}
-                />
-                {errors.Address && (
-                  <h4 style={styles.errorMessage}>{errors.Address.message}</h4>
-                )}
-              </div>
-              <div>
-                <TextField
-                  id="outlined-basic"
-                  label="Phone"
-                  variant="outlined"
-                  name="Phone"
-                  inputRef={register}
-                  onChange={(event) => setPhone(event.target.value)}
-                  style={styles.textField}
-                />
-                {errors.Phone && (
-                  <h4 style={styles.errorMessage}>{errors.Phone.message}</h4>
-                )}
-              </div>
-            </div>
-            <div>
-              <Button
-                style={styles.button}
-                variant="contained"
-                color="secondary"
-                onClick={goBack}
-              >
-                Back
-              </Button>
-              <Button
-                type="submit"
-                variant="contained"
-                color="secondary"
-                onClick={handleSubmit(onSubmit)}
-              >
-                Book Now!
-              </Button>
-            </div>
-          </form>
         </div>
       </div>
-    </div>
+      {orderResponse && <PlaceOrderPage orderResponse={orderResponse} />}
+    </>
   );
 };
 

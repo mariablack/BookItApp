@@ -14,7 +14,7 @@ const useStore = create((set) => ({
     set((state) => ({
       items: state.items - 1,
       totalAmount: state.totalAmount - item.Price,
-      basketItems: state.basketItems.filter((x) => x.Id !== item.Id),
+      basketItems: state.basketItems.filter((x) => x.id !== item.id),
     })),
 }));
 

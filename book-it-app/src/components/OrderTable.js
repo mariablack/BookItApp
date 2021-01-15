@@ -21,7 +21,7 @@ const styles = {
     maxWidth: '600px',
   },
   columns: {
-    color: '#49a6e9',
+    color: '#102a42',
     fontSize: '18px',
     fontWeight: 600,
   },

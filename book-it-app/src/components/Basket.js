@@ -26,24 +26,11 @@ const styles = {
   },
   product: {
     display: 'flex',
-    justifyContent: 'space-between',
-    padding: '0px 20px',
+    justifyContent: 'space-evenly',
     color: '#0d835f',
     fontSize: '18px',
     fontWeight: 600,
-  },
-
-  dates: {
-    color: '#0d835f',
-    fontSize: '18px',
-    fontWeight: 600,
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '0px 20px',
     alignItems: 'center',
-  },
-  span: {
-    width: '260px',
   },
   total: {
     color: '#0d835f',
@@ -76,19 +63,12 @@ const Basket = (props) => {
     history.push('/checkOut');
   };
 
-  console.log(`BasketItems ${JSON.stringify(basketItems)}`);
   const basketProducts = basketItems.map(function (item) {
     return (
       <div key={item.id}>
         <div style={styles.product}>
           <div>{item.Title}</div>
           <div>Price: €{item.Price}</div>
-        </div>
-        <div style={styles.dates}>
-          Dates:
-          <span style={styles.span}>
-            {item.From} To {item.To}{' '}
-          </span>
           <IconButton
             className="clearBtn"
             key={item.id}
