@@ -19,6 +19,9 @@ const columns = [
 const styles = {
   table: {
     maxWidth: '600px',
+    boxShadow: '0 10px 30px rgba(41,51,57,.75)',
+    padding: '30px',
+    minWidth: '600px',
   },
   columns: {
     color: '#102a42',
@@ -78,14 +81,14 @@ const OrderTable = () => {
   ));
 
   return (
-    <>
-      <Table style={styles.table} className="table" aria-label="simple table">
+    <div style={styles.table}>
+      <Table className="table" aria-label="simple table">
         <TableHead>
           <TableRow>{tableColumns}</TableRow>
         </TableHead>
         <TableBody>{Rows}</TableBody>
       </Table>
-    </>
+    </div>
   );
 };
 

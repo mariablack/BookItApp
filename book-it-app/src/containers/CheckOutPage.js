@@ -41,15 +41,19 @@ const styles = {
   order: {
     display: 'flex',
     justifyContent: 'space-around',
+    minHeight: '500px',
   },
   table: {
     maxWidth: '600px',
+    boxShadow: '0 10px 30px rgba(41,51,57,.75)',
+    padding: '30px',
   },
   title: {
     fontSize: '25px',
     fontWeight: '600',
     color: '#102a42',
     margin: '30px',
+    padding: '30px',
   },
   rightTitle: {
     fontSize: '20px',
