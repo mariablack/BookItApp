@@ -132,7 +132,6 @@ const CheckOut = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(JSON.stringify(data));
         setOrderResponse(data);
       });
   };

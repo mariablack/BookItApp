@@ -54,7 +54,7 @@ const PlaceOrderPage = (props) => {
       }
       setLoading(false);
     }
-  }, []);
+  }, [orderResponse]);
 
   return (
     <div style={styles.wrapper}>

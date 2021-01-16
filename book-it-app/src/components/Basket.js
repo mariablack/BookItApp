@@ -74,7 +74,7 @@ const Basket = (props) => {
             key={item.id}
             onClick={() => removeItemFromBasket(item)}
           >
-            <ClearIcon color="#000" fontSize="large" />
+            <ClearIcon fontSize="large" />
           </IconButton>
         </div>
         <hr />
