@@ -7,6 +7,7 @@ import Badge from '@material-ui/core/Badge';
 import Button from '@material-ui/core/Button';
 import { getApartments } from '../consts.js';
 import Basket from '../components/Basket';
+import Apartment from '../components/Apartment';
 import useStore from '../store';
 
 const styles = {
@@ -101,39 +102,6 @@ const Home = () => {
     setShowBasket(show);
   };
 
-  const itemsToShow = apartments.map((i, index) => (
-    <div key={index}>
-      <article style={styles.article} className="single-tour">
-        <img style={styles.image} src={i.Image} alt="" />
-        <footer style={styles.footer}>
-          <div>
-            <div style={styles.info}>
-              <h3>{i.Title}</h3>
-              <h3 style={styles.price}>Price: €{i.Price}</h3>
-            </div>
-            <div style={styles.info}>
-              <h4 style={styles.people}>People: {i.People}</h4>
-              <h4 style={styles.available}>
-                <p>
-                  Available From: {i.From} To: {i.To}
-                </p>
-              </h4>
-            </div>
-            <p style={styles.description}>{i.Description}</p>
-          </div>
-          <Button
-            variant="contained"
-            color="secondary"
-            key={i.id}
-            onClick={() => addToBasket(i)}
-          >
-            Book
-          </Button>
-        </footer>
-      </article>
-    </div>
-  ));
-
   return (
     <>
       <div style={styles.basket}>
@@ -149,7 +117,9 @@ const Home = () => {
           <h2>Welcome to BookIt!</h2>
           <div style={styles.underline} className="underline" />
         </div>
-        {itemsToShow}
+        {apartments.map((i, index) => (
+          <Apartment apartment={i} index={index} />
+        ))}
       </section>
       <Basket showBasket={showBasket} setShowBasket={setShowBasket} />
     </>
