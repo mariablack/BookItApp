@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
@@ -93,14 +93,14 @@ const styles = {
 };
 
 const CheckOut = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [city, setCity] = useState('');
-  const [email, setEmail] = useState('');
-  const [postalCode, setPostalCode] = useState('');
-  const [address, setAddress] = useState('');
-  const [phone, setPhone] = useState('');
-  const [orderResponse, setOrderResponse] = useState(null);
+  const [firstName, setFirstName] = React.useState('');
+  const [lastName, setLastName] = React.useState('');
+  const [city, setCity] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [postalCode, setPostalCode] = React.useState('');
+  const [address, setAddress] = React.useState('');
+  const [phone, setPhone] = React.useState('');
+  const [orderResponse, setOrderResponse] = React.useState(null);
   const history = useHistory();
   const basketItems = useStore((state) => state.basketItems);
 

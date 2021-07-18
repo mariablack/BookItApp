@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
@@ -39,8 +39,7 @@ const styles = {
   },
 };
 
-const Basket = (props) => {
-  const { showBasket, setShowBasket } = props;
+const Basket = ({ showBasket, setShowBasket }) => {
   const history = useHistory();
 
   const basketItems = useStore((state) => state.basketItems);
@@ -83,7 +82,7 @@ const Basket = (props) => {
   });
 
   return (
-    <Fragment key="right">
+    <React.Fragment key="right">
       <Drawer
         anchor="right"
         open={showBasket}
@@ -108,7 +107,7 @@ const Basket = (props) => {
           </div>
         </div>
       </Drawer>
-    </Fragment>
+    </React.Fragment>
   );
 };
 

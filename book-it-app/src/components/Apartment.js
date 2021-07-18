@@ -42,9 +42,7 @@ const styles = {
   },
 };
 
-const Apartment = (props) => {
-  const { apartment, index } = props;
-
+const Apartment = ({ apartment, index }) => {
   const addToBasket = useStore((state) => state.addToBasket);
 
   return (

@@ -1,10 +1,9 @@
 /* eslint-disable global-require */
 /* eslint-disable import/no-dynamic-require */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import Badge from '@material-ui/core/Badge';
-import Button from '@material-ui/core/Button';
 import { getApartments } from '../consts.js';
 import Basket from '../components/Basket';
 import Apartment from '../components/Apartment';
@@ -83,13 +82,12 @@ const styles = {
 };
 
 const Home = () => {
-  const [apartments, setApartments] = useState([]);
-  const [showBasket, setShowBasket] = useState(false);
+  const [apartments, setApartments] = React.useState([]);
+  const [showBasket, setShowBasket] = React.useState(false);
 
   const items = useStore((state) => state.items);
-  const addToBasket = useStore((state) => state.addToBasket);
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetch(getApartments)
       .then((response) => response.json())
       .then((data) => {
@@ -112,7 +110,6 @@ const Home = () => {
         </IconButton>
       </div>
       <section style={styles.section}>
-        {' '}
         <div style={styles.title} className="title">
           <h2>Welcome to BookIt!</h2>
           <div style={styles.underline} className="underline" />

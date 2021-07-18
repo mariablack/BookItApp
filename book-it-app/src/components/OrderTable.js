@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -36,7 +36,7 @@ const styles = {
 };
 
 const OrderTable = () => {
-  const [changed, setChanged] = useState(false);
+  const [changed, setChanged] = React.useState(false);
 
   const basketItems = useStore((state) => state.basketItems);
   const removeItemFromBasket = useStore((state) => state.removeItemFromBasket);
@@ -52,7 +52,7 @@ const OrderTable = () => {
     setChanged(!changed);
   };
 
-  useEffect(() => {}, [changed]);
+  React.useEffect(() => {}, [changed]);
 
   const Rows = basketItems.map((row, index) => (
     <TableRow key={index}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import DoneIcon from '@material-ui/icons/Done';
 import RotateLeftRoundedIcon from '@material-ui/icons/RotateLeftRounded';
 import { makeStyles } from '@material-ui/core/styles';
@@ -38,14 +38,13 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const PlaceOrderPage = (props) => {
-  const { orderResponse } = props;
-  const [isCompleted, setIsCompleted] = useState(false);
-  const [hasError, setHasError] = useState(false);
-  const [loading, setLoading] = useState(true);
+const PlaceOrderPage = ({ orderResponse }) => {
+  const [isCompleted, setIsCompleted] = React.useState(false);
+  const [hasError, setHasError] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const classes = useStyles();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (orderResponse) {
       if (orderResponse.status === 'success') {
         setIsCompleted(true);

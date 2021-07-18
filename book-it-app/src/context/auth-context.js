@@ -2,27 +2,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Spinner from '../components/Spinner';
-
-const sleep = (time) => new Promise((resolve) => setTimeout(resolve, time));
-
-const getUser = () => sleep(1000).then(() => ({ payment: 'success' }));
-// .then(() => null)
+import { getToken } from './auth-provider';
 
 const AuthContext = React.createContext();
 function AuthProvider({ children }) {
   const [state, setState] = React.useState({
     status: 'pending',
     error: null,
-    user: null,
+    token: null,
     apartment: null,
   });
   React.useEffect(() => {
-    getUser().then(
-      (user) => setState({ status: 'success', error: null, user }),
+    getToken().then(
+      (token) => setState({ status: 'success', error: null, token }),
       (error) => setState({ status: 'error', error, user: null })
     );
   }, []);
 
+  console.log(' state ', state);
   return (
     <AuthContext.Provider value={state}>
       {/* eslint-disable-next-line no-nested-ternary */}
